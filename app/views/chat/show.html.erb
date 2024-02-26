@@ -1,6 +1,11 @@
 <h1>Chats#show</h1>
 <div>
-  <div>
+  <turbo-frame id="messages">
     <%= render @messages %>
-  </div>
+  </turbo-frame>
+
+  <form action="/messages" method="post" data-turbo-frame="messages">
+    <input type="text" name="message[content]">
+    <button type="submit">Send</button>
+  </form>
 </div>
