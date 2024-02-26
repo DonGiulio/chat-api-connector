@@ -6,4 +6,12 @@ RSpec.describe 'Sample test' do
   it 'succeeds' do
     expect(true).to eq(true)
   end
+
+  it 'faker working' do
+    expect(Faker::Name.name).to be_a(String)
+  end
+
+  it 'factorybot working' do
+    expect(build(:profile)).to be_a(Profile)
+  end
 end
