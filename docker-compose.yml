@@ -1,0 +1,19 @@
+version: '2'
+services:
+  postgres:
+    image: 'postgres'
+    environment:
+      POSTGRES_USER: 'chat-api-connector'
+      POSTGRES_PASSWORD: 'chat-api-connector'
+    volumes:
+      - '../chat-api-connector-postgres-data:/var/lib/postgresql/data'
+    ports:
+      - '35432:5432'
+
+  redis:
+    image: 'redis'
+    command: redis-server
+    ports:
+      - '26379:6379'
+    volumes:
+        - '../chat-api-connector-redis-data:/data'

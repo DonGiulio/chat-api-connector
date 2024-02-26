@@ -17,17 +17,21 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 20 } %>
+  host: localhost
+  port: 35432
+  username: chat-api-connector
+  password: chat-api-connector
 
 development:
   <<: *default
-  database: chat_api_connector_development
+  database: chat-api-connector_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
   # When left blank, PostgreSQL will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: chat_api_connector
+  #username: chat-api-connector
 
   # The password associated with the PostgreSQL role (username).
   #password:
@@ -55,7 +59,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: chat_api_connector_test
+  database: chat-api-connector_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -79,6 +83,6 @@ test:
 #
 production:
   <<: *default
-  database: chat_api_connector_production
-  username: chat_api_connector
-  password: <%= ENV["CHAT_API_CONNECTOR_DATABASE_PASSWORD"] %>
+  database: chat-api-connector_production
+  username: chat-api-connector
+  password: <%= ENV["DATABASE_PASSWORD"] %>
