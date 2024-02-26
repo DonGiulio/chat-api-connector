@@ -2,7 +2,7 @@
 #
 # Table name: profiles
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  category   :string
 #  gender     :integer
 #  name       :string
