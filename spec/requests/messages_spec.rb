@@ -2,7 +2,12 @@ require 'rails_helper'
 
 RSpec.describe MessagesController, type: :controller do
   describe 'POST #create' do
-    let!(:profile) { create(:profile) } # Assuming you have a profile factory
+    before do
+      allow(controller).to receive(:authenticate!)
+      allow(controller).to receive(:session).and_return({ current_user: profile.id })
+    end
+
+    let!(:profile) { create(:profile) }
     let(:valid_attributes) { { content: 'Hello, World!' } }
 
     context 'with valid parameters' do

@@ -37,4 +37,35 @@ RSpec.describe ProfilesController, type: :controller do
       end
     end
   end
+
+  describe 'GET #show' do
+    let(:profile) { create(:profile) }
+
+    context 'when the user is authenticated' do
+      before do
+        allow(controller).to receive(:authenticate!).and_return(true)
+        get :show, params: { id: profile.id }
+      end
+
+      it 'sets the current user in the session' do
+        expect(session[:current_user]).to eq(profile.id)
+      end
+
+      it 'redirects to the chat show path' do
+        expect(response).to redirect_to(chat_show_path)
+      end
+    end
+
+    context 'when the user is not authenticated' do
+      it 'does not set the current user in the session' do
+        get :show, params: { id: profile.id }
+        expect(session[:current_user]).to eq profile.id
+      end
+
+      it 'redirects to the login page or shows an error' do
+        get :show, params: { id: profile.id }
+        expect(response).to redirect_to(chat_show_path)
+      end
+    end
+  end
 end

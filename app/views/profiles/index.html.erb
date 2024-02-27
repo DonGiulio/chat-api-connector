@@ -27,6 +27,7 @@
       <td><%= profile.name %></td>
       <td><%= profile.gender %></td>
       <td><%= profile.category %></td>
+      <td><%= link_to 'use', profile_path(profile) %></td>
     </tr>
   <% end %>
 </table>

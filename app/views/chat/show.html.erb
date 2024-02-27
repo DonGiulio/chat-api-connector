@@ -1,4 +1,4 @@
-<h1>Chats#show</h1>
+<h1>Chatting as <%= current_user.name %></h1>
 <div>
   <turbo-frame id="messages">
     <%= render @messages %>
@@ -8,4 +8,5 @@
     <input type="text" name="message[content]">
     <button type="submit">Send</button>
   </form>
+  <%= link_to 'back', root_path %>
 </div>

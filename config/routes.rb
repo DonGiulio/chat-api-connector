@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :messages, only: [:create]
-  resources :profiles, only: [:index]
+  resources :profiles, only: %i[index show]
 
   get 'chat/show'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
