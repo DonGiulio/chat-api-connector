@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+
   resources :messages, only: [:create]
   resources :profiles, only: %i[index show]
 
@@ -11,4 +13,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root 'profiles#index'
+
+  mount Sidekiq::Web => '/sidekiq'
 end

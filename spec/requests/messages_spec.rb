@@ -25,10 +25,22 @@ RSpec.describe MessagesController, type: :controller do
     end
 
     context 'with invalid parameters' do
-      it 'does not create a new Message' do
-        expect do
-          post :create, params: { message: { content: '' } }
-        end.to change(Message, :count).by(1)
+      context 'when content is blank' do
+        let(:invalid_attributes) { { content: '' } }
+
+        it 'returns a bad request status and does not create a message' do
+          expect do
+            post :create, params: { message: invalid_attributes }
+          end.not_to change(Message, :count)
+
+          expect(response).to have_http_status(:bad_request)
+        end
+
+        it 'does not enqueue FetchApiResponseJob' do
+          expect do
+            post :create, params: { message: invalid_attributes }
+          end.not_to have_enqueued_job(FetchApiResponseJob)
+        end
       end
     end
   end

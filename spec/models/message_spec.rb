@@ -4,6 +4,7 @@
 #
 #  id         :uuid             not null, primary key
 #  content    :text
+#  sender     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  profile_id :uuid             not null
@@ -25,5 +26,7 @@ RSpec.describe Message, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:profile_id) }
+    it { is_expected.to validate_presence_of(:content) }
+    it { is_expected.to validate_presence_of(:sender) }
   end
 end

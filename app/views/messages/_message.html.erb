@@ -1,4 +1,7 @@
-<div class="message">
-  <p><%= message.profile.name %></p>
-  <p><%= message.content %></p>
+<div id="<%= dom_id(message) %>" class="message">
+  <p>
+    <%= time_ago_in_words(message.created_at) %> ago by
+    <%= message.sender %>:
+    <%= message.content %>
+  </p>
 </div>

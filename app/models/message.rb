@@ -4,6 +4,7 @@
 #
 #  id         :uuid             not null, primary key
 #  content    :text
+#  sender     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  profile_id :uuid             not null
@@ -19,5 +20,5 @@
 class Message < ApplicationRecord
   belongs_to :profile
 
-  validates :profile_id, presence: true
+  validates :profile_id, :content, :sender, presence: true
 end

@@ -1,5 +1,7 @@
 <h1>Chatting as <%= current_user.name %></h1>
 <div>
+  <%= turbo_stream_from "messages" %>
+
   <turbo-frame id="messages">
     <%= render @messages %>
   </turbo-frame>

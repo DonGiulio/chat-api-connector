@@ -6,4 +6,8 @@ class ApplicationController < ActionController::Base
 
     redirect_to root_path
   end
+
+  def current_user
+    @current_user ||= Profile.find(session[:current_user])
+  end
 end

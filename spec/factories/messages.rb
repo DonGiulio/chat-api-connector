@@ -4,6 +4,7 @@
 #
 #  id         :uuid             not null, primary key
 #  content    :text
+#  sender     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  profile_id :uuid             not null
@@ -19,6 +20,7 @@
 FactoryBot.define do
   factory :message do
     content { Faker::Lorem.sentence }
+    sender { Faker::Name.name }
     profile
   end
 end
