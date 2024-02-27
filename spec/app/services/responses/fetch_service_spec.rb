@@ -9,13 +9,13 @@ RSpec.describe Responses::FetchService do
     let(:message_id) { Faker::Internet.uuid }
     let(:message) { instance_double(Message, profile:) }
     let(:profile) { instance_double(Profile) }
-    let(:api_service) { instance_double(Api::LanguageModel::Responses::FetchService, process: api_response) }
+    let(:api_service) { instance_double(LanguageModel::Responses::FetchService, process: api_response) }
     let(:api_response) { { content: 'Response content', sender: 'Response sender' } }
     let(:response_message) { instance_double(Message) }
 
     before do
       allow(Message).to receive(:find).with(message_id).and_return(message)
-      allow(Api::LanguageModel::Responses::FetchService).to receive(:new).with(message:).and_return(api_service)
+      allow(LanguageModel::Responses::FetchService).to receive(:new).with(message:).and_return(api_service)
       allow(Message).to receive(:create!).and_return(response_message)
       allow(Turbo::StreamsChannel).to receive(:broadcast_append_to)
     end

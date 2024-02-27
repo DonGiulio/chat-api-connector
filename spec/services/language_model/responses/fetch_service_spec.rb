@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::LanguageModel::Responses::FetchService do
+RSpec.describe LanguageModel::Responses::FetchService do
   describe '#process' do
     let(:message) { { "content": 'Test message', "sender": 'User' } }
     let(:fetch_service) { described_class.new(message:) }

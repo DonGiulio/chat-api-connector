@@ -9,7 +9,7 @@ module Responses
     end
 
     def process
-      response = Api::LanguageModel::Responses::FetchService.new(message:).process
+      response = LanguageModel::Responses::FetchService.new(message:).process
 
       # Save the response as a new message or update existing logic here
       response_message = Message.create!(profile: message.profile, **response)
