@@ -1,0 +1,34 @@
+<%= search_form_for @q, data: { controller: "filters", filters_target: "form" } do |f| %>
+  <div>
+    <%= f.label :gender_eq, 'Gender' %>
+    <%= f.select :gender_eq,
+                 options_for_select(Profile.genders.map { |key, value| [key.humanize, value] },
+                                    selected: @q.gender_eq),
+                 { include_blank: 'Any' },
+                 { data: { action: "change->filters#submit" } } %>
+  </div>
+
+  <div>
+    <%= f.label :category_eq, 'Category' %>
+    <%= f.select :category_eq,
+                 options_for_select(Profile.select(:category).distinct.pluck(:category),
+                                    selected: @q.category_eq),
+                 { include_blank: 'Any' },
+                 { data: { action: "change->filters#submit" } } %>
+  </div>
+
+  <%= link_to 'Clear Filters', profiles_path, class: 'clear-filters', data: { action: "click->filters#clear" } %>
+
+<% end %>
+
+<table>
+  <% @profiles.each do |profile| %>
+    <tr>
+      <td><%= profile.name %></td>
+      <td><%= profile.gender %></td>
+      <td><%= profile.category %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= paginate @profiles %>

@@ -13,4 +13,8 @@ class Profile < ApplicationRecord
   enum gender: { male: 0, female: 1 }
 
   validates :name, :category, presence: true
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[category gender]
+  end
 end
