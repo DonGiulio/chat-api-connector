@@ -25,5 +25,6 @@ FactoryBot.define do
     content { Faker::Lorem.sentence }
     sender { Faker::Name.name }
     chat
+    role { %i[assistant user].sample }
   end
 end

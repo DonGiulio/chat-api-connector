@@ -16,11 +16,7 @@ module LanguageModel
       private
 
       def response
-        @response ||= LanguageModel::Api::PostService.new(messages:).process
-      end
-
-      def messages
-        chat.messages
+        @response ||= LanguageModel::Api::PostService.new(chat:).process
       end
 
       def hash_result(response)

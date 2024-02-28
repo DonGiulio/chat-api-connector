@@ -15,8 +15,7 @@ RSpec.describe LanguageModel::Responses::FetchService do
     end
 
     before do
-      allow(chat).to receive(:messages).and_return([])
-      allow(LanguageModel::Api::PostService).to receive(:new).with(messages: []).and_return(api_service)
+      allow(LanguageModel::Api::PostService).to receive(:new).with(chat:).and_return(api_service)
       allow(api_service).to receive(:process).and_return(api_response)
     end
 

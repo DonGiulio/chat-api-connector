@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: chats
@@ -22,5 +24,11 @@ FactoryBot.define do
   factory :chat do
     profile
     assistant
+
+    trait :with_message do
+      after(:create) do |chat|
+        create(:message, chat:)
+      end
+    end
   end
 end

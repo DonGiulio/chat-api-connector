@@ -35,5 +35,21 @@ def create_assistants
   Assistant.create!(assistant_data)
 end
 
+def create_servers
+  server_data = [
+    {
+      name: 'Server 1',
+      url: 'http://35.204.143.204:5000/v1/chat/completions'
+    },
+    {
+      name: 'Server 2',
+      url: 'http://35.204.143.204:5000/v1/chat/completions'
+    }
+  ]
+
+  Server.create!(server_data)
+end
+
 create_profiles if Profile.count.zero?
 create_assistants if Assistant.count.zero?
+create_servers if Server.count.zero?
