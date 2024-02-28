@@ -25,6 +25,9 @@ module Responses
                                                 target: 'messages',
                                                 partial: 'messages/message',
                                                 locals: { message: response_message }
+      Turbo::StreamsChannel.broadcast_update_to 'messages',
+                                                target: 'indicator',
+                                                partial: 'messages/typing_indicator'
     end
   end
 end

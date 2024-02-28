@@ -6,10 +6,14 @@
     <%= render @chat.messages %>
   </turbo-frame>
 
-  <form action="/messages" method="post" data-turbo-frame="messages">
-    <input type="text" name="message[content]">
-    <input type="hidden" name="message[chat_id]" value="<%= @chat.id %>">
-    <button type="submit">Send</button>
-  </form>
+  <div id="typing-indicator" data-controller="typing-indicator">
+    <%= render 'messages/typing_indicator' %>
+
+    <form action="/messages" method="post" data-turbo-frame="messages">
+      <input type="text" name="message[content]">
+      <input type="hidden" name="message[chat_id]" value="<%= @chat.id %>">
+      <button type="submit" data-action="typing-indicator#show">Send</button>
+    </form>
+  </div>
   <%= link_to 'back', root_path %>
 </div>
