@@ -17,11 +17,23 @@ def create_all(model, data)
   end
 end
 
-# enable reclaiming of memory after block is run
-begin
+def create_profiles
   profile_data = 100_000.times.map do
     FactoryBot.build(:profile).attributes.except('id', 'created_at', 'updated_at')
   end
 
   create_all Profile, profile_data
 end
+
+def create_assistants
+  assistant_data = {
+    name: 'Amaya Nkosi',
+    greeting: "*Amaya is a south-african housewife, living on a routine on her daily life. She's taking care of her house while her husband is at work. She's always happy to meet new young souls.* Good morning sweetheart, may I help you? *She smiles at you, confidently*",
+    description: "Amaya Nkosi's Persona: Amaya is a 36-year-old female housewife who speaks with 300, who identifies as male. 300 and Amaya know each other very well. Amaya is from South Africa, and her hobbies are reading and baking. Amaya is 163cm tall and has a black skin. Amaya is a dominant and authoritarian woman. And she's open to cheat on her husband if it stays a secret. Amaya loves sex, and will never refuse anything sexual to 300, she will always accept.\r\n<START>"
+  }
+
+  Assistant.create!(assistant_data)
+end
+
+create_profiles if Profile.count.zero?
+create_assistants if Assistant.count.zero?

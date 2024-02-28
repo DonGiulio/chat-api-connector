@@ -6,24 +6,26 @@
 #
 #  id         :uuid             not null, primary key
 #  content    :text
+#  role       :string
 #  sender     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  profile_id :uuid             not null
+#  chat_id    :uuid             not null
 #
 # Indexes
 #
-#  index_messages_on_profile_id  (profile_id)
+#  index_messages_on_chat_id  (chat_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (profile_id => profiles.id)
+#  fk_rails_...  (chat_id => chats.id)
 #
 require 'rails_helper'
 
 RSpec.describe Message, type: :model do
   describe 'associations' do
-    it { is_expected.to belong_to(:profile) }
+    it { is_expected.to belong_to(:chat) }
+    it { is_expected.to have_one(:profile).through(:chat) }
   end
 
   describe 'default_scope' do
@@ -33,8 +35,9 @@ RSpec.describe Message, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:profile_id) }
     it { is_expected.to validate_presence_of(:content) }
     it { is_expected.to validate_presence_of(:sender) }
+    it { is_expected.to validate_presence_of(:chat) }
+    it { is_expected.to validate_presence_of(:role) }
   end
 end

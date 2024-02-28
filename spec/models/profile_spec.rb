@@ -21,7 +21,8 @@ RSpec.describe Profile, type: :model do
   end
 
   describe 'associations' do
-    it { should have_many(:messages).dependent(:destroy) }
+    it { should have_many(:chats).dependent(:destroy) }
+    it { should have_many(:messages).through(:chats) }
   end
 
   describe 'validations' do

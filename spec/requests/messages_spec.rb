@@ -10,7 +10,11 @@ RSpec.describe MessagesController, type: :controller do
     end
 
     let!(:profile) { create(:profile) }
-    let(:valid_attributes) { { content: 'Hello, World!' } }
+    let(:chat_id) { create(:chat).id }
+    let(:valid_attributes) do
+      { content: 'Hello, World!',
+        chat_id: }
+    end
 
     context 'with valid parameters' do
       it 'creates a new Message' do

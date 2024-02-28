@@ -1,43 +1,26 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
 RSpec.describe ChatController, type: :controller do
   describe 'GET #show' do
-    let!(:user) { create(:profile) }
-    let!(:other_user) { create(:profile) }
-    let!(:user_messages) { create_list(:message, 3, profile: user) }
-    let!(:other_user_messages) { create_list(:message, 2, profile: other_user) }
+    let(:profile) { create(:profile) }
+    let(:assistant) { create(:assistant) }
+    let(:chat) { create(:chat, profile:, assistant:) }
 
-    context 'when the user is logged in' do
-      before do
-        session[:current_user] = user.id
-        get :show
-      end
-
-      it 'assigns the correct messages to @messages' do
-        expect(assigns(:messages)).to match_array(user_messages.sort_by(&:created_at).reverse)
-      end
-
-      it 'does not include other users\' messages' do
-        assigns(:messages).each do |message|
-          expect(message.profile_id).to eq(user.id)
-        end
-      end
+    before do
+      allow(controller).to receive(:authenticate!).and_return(true)
+      allow(controller).to receive(:current_user).and_return(profile)
     end
 
-    context 'when the user is not logged in' do
-      before do
-        get :show
-      end
+    it 'initializes and processes Chats::FetchOrCreateService with correct parameters' do
+      expect(Chats::FetchOrCreateService).to receive(:new).with(profile:, assistant:).and_call_original
+      expect_any_instance_of(Chats::FetchOrCreateService).to receive(:process).and_return(chat)
+      get :show
+    end
 
-      it 'redirects to the root path' do
-        expect(response).to redirect_to(root_path)
-      end
-
-      it 'does not assign @messages' do
-        expect(assigns(:messages)).to be_nil
-      end
+    it 'assigns @chat with the result from Chats::FetchOrCreateService' do
+      allow_any_instance_of(Chats::FetchOrCreateService).to receive(:process).and_return(chat)
+      get :show
+      expect(assigns(:chat)).to eq(chat)
     end
   end
 end

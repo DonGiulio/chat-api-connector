@@ -4,6 +4,14 @@ class ChatController < ApplicationController
   before_action :authenticate!
 
   def show
-    @messages = Message.where(profile: current_user)
+    @chat = Chats::FetchOrCreateService
+            .new(profile: current_user, assistant:)
+            .process
+  end
+
+  private
+
+  def assistant
+    @assistant ||= Assistant.first
   end
 end

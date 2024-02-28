@@ -6,23 +6,25 @@
 #
 #  id         :uuid             not null, primary key
 #  content    :text
+#  role       :string
 #  sender     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  profile_id :uuid             not null
+#  chat_id    :uuid             not null
 #
 # Indexes
 #
-#  index_messages_on_profile_id  (profile_id)
+#  index_messages_on_chat_id  (chat_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (profile_id => profiles.id)
+#  fk_rails_...  (chat_id => chats.id)
 #
 class Message < ApplicationRecord
-  belongs_to :profile
+  belongs_to :chat
+  has_one :profile, through: :chat
 
   default_scope { order(created_at: :asc) }
 
-  validates :profile_id, :content, :sender, presence: true
+  validates :chat, :content, :sender, :role, presence: true
 end

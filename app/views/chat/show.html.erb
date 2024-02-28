@@ -3,11 +3,12 @@
   <%= turbo_stream_from "messages" %>
 
   <turbo-frame id="messages">
-    <%= render @messages %>
+    <%= render @chat.messages %>
   </turbo-frame>
 
   <form action="/messages" method="post" data-turbo-frame="messages">
     <input type="text" name="message[content]">
+    <input type="hidden" name="message[chat_id]" value="<%= @chat.id %>">
     <button type="submit">Send</button>
   </form>
   <%= link_to 'back', root_path %>

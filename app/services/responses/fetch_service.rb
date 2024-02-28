@@ -2,19 +2,25 @@
 
 module Responses
   class FetchService
-    attr_reader :message
+    attr_reader :chat
 
-    def initialize(message_id:)
-      @message = Message.find message_id
+    def initialize(chat_id:)
+      @chat = Chat.find chat_id
     end
 
     def process
-      response = LanguageModel::Responses::FetchService.new(message:).process
+      response_message = Message.create!(chat:, **response)
 
-      # Save the response as a new message or update existing logic here
-      response_message = Message.create!(profile: message.profile, **response)
+      broadcast_response(response_message)
+    end
 
-      # Broadcast the message using Turbo Streams
+    private
+
+    def response
+      LanguageModel::Responses::FetchService.new(chat:).process
+    end
+
+    def broadcast_response(response_message)
       Turbo::StreamsChannel.broadcast_append_to 'messages',
                                                 target: 'messages',
                                                 partial: 'messages/message',

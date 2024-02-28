@@ -12,17 +12,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_227_171_123) do
+ActiveRecord::Schema[7.1].define(version: 20_240_228_121_148) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
+  create_table 'assistants', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
+    t.string 'name'
+    t.text 'greeting'
+    t.text 'description'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'chats', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
+    t.uuid 'profile_id', null: false
+    t.uuid 'assistant_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['assistant_id'], name: 'index_chats_on_assistant_id'
+    t.index ['profile_id'], name: 'index_chats_on_profile_id'
+  end
+
   create_table 'messages', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
     t.text 'content'
-    t.uuid 'profile_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.string 'sender'
-    t.index ['profile_id'], name: 'index_messages_on_profile_id'
+    t.uuid 'chat_id', null: false
+    t.string 'role'
+    t.index ['chat_id'], name: 'index_messages_on_chat_id'
   end
 
   create_table 'profiles', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
@@ -33,5 +51,7 @@ ActiveRecord::Schema[7.1].define(version: 20_240_227_171_123) do
     t.datetime 'updated_at', null: false
   end
 
-  add_foreign_key 'messages', 'profiles'
+  add_foreign_key 'chats', 'assistants'
+  add_foreign_key 'chats', 'profiles'
+  add_foreign_key 'messages', 'chats'
 end

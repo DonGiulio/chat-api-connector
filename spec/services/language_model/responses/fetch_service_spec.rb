@@ -4,51 +4,29 @@ require 'rails_helper'
 
 RSpec.describe LanguageModel::Responses::FetchService do
   describe '#process' do
-    let(:message) { { "content": 'Test message', "sender": 'User' } }
-    let(:fetch_service) { described_class.new(message:) }
+    let(:chat) { create(:chat, assistant: create(:assistant, name: 'Assistant Name')) }
+    let(:api_service) { instance_double(LanguageModel::Api::PostService) }
+    let(:api_response) do
+      {
+        'choices' => [
+          { 'message' => { 'content' => 'Generated response' } }
+        ]
+      }.deep_symbolize_keys
+    end
 
     before do
-      allow(fetch_service).to receive(:fetch_response).and_return(fetch_response_stub)
+      allow(chat).to receive(:messages).and_return([])
+      allow(LanguageModel::Api::PostService).to receive(:new).with(messages: []).and_return(api_service)
+      allow(api_service).to receive(:process).and_return(api_response)
     end
 
-    let(:fetch_response_stub) do
-      {
-        "choices": [
-          {
-            "message": {
-              "role": 'assistant',
-              "content": 'Test response'
-            }
-          }
-        ]
-      }
-    end
+    subject(:fetch_service) { described_class.new(chat:) }
 
-    it 'returns a hash with content and sender' do
+    it 'calls the PostService and processes the response' do
       result = fetch_service.process
-      expect(result).to eq({
-                             content: 'Test response',
-                             sender: 'assistant'
-                           })
-    end
-  end
-
-  describe '#hash_result' do
-    it 'transforms response into hash with content and sender' do
-      response = {
-        "choices": [
-          {
-            "message": {
-              "content": 'Sample response'
-            }
-          }
-        ]
-      }
-      fetch_service = described_class.new(message: {})
-      expect(fetch_service.send(:hash_result, response)).to eq({
-                                                                 content: 'Sample response',
-                                                                 sender: 'assistant'
-                                                               })
+      expect(result[:content]).to eq('Generated response')
+      expect(result[:sender]).to eq(chat.assistant.name)
+      expect(result[:role]).to eq(:assistant)
     end
   end
 end

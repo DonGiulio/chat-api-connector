@@ -3,10 +3,10 @@
 module LanguageModel
   module Responses
     class FetchService
-      attr_reader :message
+      attr_reader :chat
 
-      def initialize(message:)
-        @message = message
+      def initialize(chat:)
+        @chat = chat
       end
 
       def process
@@ -20,7 +20,7 @@ module LanguageModel
       end
 
       def messages
-        message.profile.messages
+        chat.messages
       end
 
       def hash_result(response)
@@ -28,7 +28,8 @@ module LanguageModel
 
         {
           content: message[:content],
-          sender: 'assistant' # request_body[:name2]
+          sender: chat.assistant.name,
+          role: :assistant
         }
       end
     end
