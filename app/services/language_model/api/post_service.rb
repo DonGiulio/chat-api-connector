@@ -8,6 +8,8 @@ module LanguageModel
 
       POST_BODY_TEMPLATE_FILE = 'app/services/language_model/api/templates/post.json.erb'
 
+      class HttpError < StandardError; end
+
       def initialize(chat:)
         @chat = chat
       end
@@ -16,6 +18,8 @@ module LanguageModel
         response = HTTParty.post(uri,
                                  body: request_body,
                                  headers: { 'Content-Type' => 'application/json' })
+        raise HttpError, 'http request failed' unless response.ok?
+
         JSON.parse(response.body).deep_symbolize_keys
       end
 

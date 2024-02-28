@@ -27,5 +27,15 @@ RSpec.describe LanguageModel::Responses::FetchService do
       expect(result[:sender]).to eq(chat.assistant.name)
       expect(result[:role]).to eq(:assistant)
     end
+
+    context 'when post service raises an error' do
+      before do
+        allow(api_service).to receive(:process).and_raise(LanguageModel::Api::PostService::HttpError)
+      end
+
+      it 'raises an error' do
+        expect { fetch_service.process }.to raise_error(LanguageModel::Api::PostService::HttpError)
+      end
+    end
   end
 end
