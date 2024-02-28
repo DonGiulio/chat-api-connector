@@ -28,7 +28,7 @@ RSpec.describe LanguageModel::Responses::FetchService do
       result = fetch_service.process
       expect(result).to eq({
                              content: 'Test response',
-                             sender: 'Amaya Nkosi'
+                             sender: 'assistant'
                            })
     end
   end
@@ -47,7 +47,7 @@ RSpec.describe LanguageModel::Responses::FetchService do
       fetch_service = described_class.new(message: {})
       expect(fetch_service.send(:hash_result, response)).to eq({
                                                                  content: 'Sample response',
-                                                                 sender: 'Amaya Nkosi'
+                                                                 sender: 'assistant'
                                                                })
     end
   end

@@ -22,5 +22,7 @@
 class Message < ApplicationRecord
   belongs_to :profile
 
+  default_scope { order(created_at: :asc) }
+
   validates :profile_id, :content, :sender, presence: true
 end

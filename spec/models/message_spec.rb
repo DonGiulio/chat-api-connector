@@ -26,6 +26,12 @@ RSpec.describe Message, type: :model do
     it { is_expected.to belong_to(:profile) }
   end
 
+  describe 'default_scope' do
+    it 'orders by created_at in ascending order' do
+      expect(described_class.all.to_sql).to include('ORDER BY "messages"."created_at" ASC')
+    end
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:profile_id) }
     it { is_expected.to validate_presence_of(:content) }

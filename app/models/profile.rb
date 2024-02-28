@@ -13,6 +13,7 @@
 #
 class Profile < ApplicationRecord
   enum gender: { male: 0, female: 1 }
+  has_many :messages, dependent: :destroy
 
   validates :name, :category, presence: true
 

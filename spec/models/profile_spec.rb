@@ -20,6 +20,10 @@ RSpec.describe Profile, type: :model do
     end
   end
 
+  describe 'associations' do
+    it { should have_many(:messages).dependent(:destroy) }
+  end
+
   describe 'validations' do
     it 'is valid with valid attributes' do
       profile = Profile.new(name: 'John Doe', category: 'Category 1', gender: :male)
