@@ -56,16 +56,18 @@ gem 'ransack'
 # api functionality
 gem 'httparty'
 
+# in prod for seeding
+gem 'factory_bot_rails'
+gem 'faker'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'annotate'
   gem 'byebug'
   gem 'debug', platforms: %i[mri windows]
-  gem 'factory_bot_rails'
-  gem 'faker'
+  gem 'dotenv'
   gem 'rspec-rails'
   gem 'rubocop'
-  gem 'dotenv'
 end
 
 group :development do
