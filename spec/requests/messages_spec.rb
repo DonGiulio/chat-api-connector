@@ -3,9 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe MessagesController, type: :controller do
+  include ActionView::RecordIdentifier
+
   describe 'POST #create' do
     let!(:profile) { create(:profile) }
-    let(:chat_id) { create(:chat).id }
+    let(:chat) { create(:chat) }
+    let(:chat_id) { chat.id }
     let(:valid_attributes) do
       { content: 'Hello, World!',
         chat_id: }
@@ -18,10 +21,15 @@ RSpec.describe MessagesController, type: :controller do
         end.to change(Message, :count).by(1)
       end
 
-      it 'renders a turbo_stream response' do
+      it 'responds with HTTP status :ok' do
         post :create, params: { message: valid_attributes }
-        expect(response.content_type).to include('text/vnd.turbo-stream.html')
-        expect(response).to render_template('messages/_message')
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'broadcasts a new message using Turbo Streams' do
+        expect do
+          post :create, params: { message: valid_attributes }
+        end.to have_broadcasted_to(dom_id(chat))
       end
 
       it 'enqueues FetchApiResponseJob' do

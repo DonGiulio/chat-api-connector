@@ -1,6 +1,6 @@
 <h1>Chatting with <%= @chat.profile.name %></h1>
 <div>
-  <%= turbo_stream_from "messages" %>
+  <%= turbo_stream_from dom_id(@chat) %>
 
   <turbo-frame id="messages">
     <%= render @chat.messages %>
