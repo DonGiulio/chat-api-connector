@@ -15,7 +15,7 @@ module LanguageModel
       end
 
       def process
-        response = HTTParty.post(uri,
+        response = HTTParty.post(server.url,
                                  body: request_body,
                                  headers: { 'Content-Type' => 'application/json' })
         raise HttpError, 'http request failed' unless response.ok?
@@ -25,7 +25,7 @@ module LanguageModel
 
       private
 
-      def uri
+      def server
         LanguageModel::Api::LoadBalancer::RoundRobinService.new.process
       end
 

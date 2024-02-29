@@ -5,16 +5,16 @@ RSpec.describe LanguageModel::Api::PostService do
     subject(:process) { service.process }
     let(:chat) { create(:chat, :with_message) }
     let(:service) { described_class.new(chat:) }
-    let(:uri) { 'http://example.com/api_endpoint' }
+    let(:server) { create(:server) }
     let(:response) { instance_double('HTTParty::Response', body: response_body, ok?: true) }
 
     before do
       allow(LanguageModel::Api::LoadBalancer::RoundRobinService)
         .to receive(:new)
         .and_return(instance_double(
-                      'LanguageModel::Api::LoadBalancer::RoundRobinService', process: uri
+                      'LanguageModel::Api::LoadBalancer::RoundRobinService', process: server
                     ))
-      allow(HTTParty).to receive(:post).with(uri, anything).and_return(response)
+      allow(HTTParty).to receive(:post).with(server.url, anything).and_return(response)
     end
 
     let(:response_body) do
@@ -45,14 +45,14 @@ RSpec.describe LanguageModel::Api::PostService do
         service.process
 
         expect(HTTParty).to have_received(:post) do |url, options|
-          expect(url).to eq(uri)
+          expect(url).to eq(server.url)
           body = JSON.parse(options[:body])
           last_message = chat.messages.last
           expect(body['user_input']).to eq last_message.content
-          expect(body['name1']).to eq chat.profile.name
-          expect(body['name2']).to eq chat.assistant.name
-          expect(body['greeting']).to eq chat.assistant.greeting
-          expect(body['context']).to eq chat.assistant.description
+          expect(body['name1']).to eq 'User'
+          expect(body['name2']).to eq chat.profile.name
+          expect(body['greeting']).to eq chat.profile.greeting
+          expect(body['context']).to eq chat.profile.context
           expect(body['messages']).to include('role' => last_message.role, 'content' => last_message.content)
         end
       end

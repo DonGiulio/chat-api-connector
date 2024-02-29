@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Chats::FetchOrCreateService do
-  subject(:process) { described_class.new(profile:, assistant:).process }
+  subject(:process) { described_class.new(profile_id:).process }
 
   let(:profile) { create(:profile) }
-  let(:assistant) { create(:assistant) }
+  let(:profile_id) { profile.id }
 
   context 'when the chat already exists' do
-    let!(:chat) { create(:chat, profile:, assistant:) }
+    let!(:chat) { create(:chat, profile:) }
 
     it 'returns the existing chat' do
       expect(process).to eq(chat)
@@ -22,7 +22,7 @@ RSpec.describe Chats::FetchOrCreateService do
 
   context 'when the chat does not exist' do
     it 'creates a new chat using Chats::CreateService' do
-      allow(Chat).to receive(:find_by).with(profile:, assistant:).and_return(nil)
+      allow(Chat).to receive(:find_by).with(profile:).and_return(nil)
       expect_any_instance_of(Chats::CreateService).to receive(:process).and_call_original
       process
     end

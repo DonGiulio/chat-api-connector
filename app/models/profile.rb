@@ -18,6 +18,14 @@ class Profile < ApplicationRecord
 
   validates :name, :category, presence: true
 
+  def greeting
+    "Hello, I'm #{name}. Today I feel like #{category}, what can we talk about?"
+  end
+
+  def context
+    "#{name} is a #{gender}, Today #{male? ? 'he' : 'she'} feels like #{category}, and looking to explore this feeling with 300. Happy to explore anything."
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[category gender]
   end

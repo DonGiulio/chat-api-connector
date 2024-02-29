@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe LanguageModel::Responses::FetchService do
   describe '#process' do
-    let(:chat) { create(:chat, assistant: create(:assistant, name: 'Assistant Name')) }
+    let(:chat) { create(:chat) }
     let(:api_service) { instance_double(LanguageModel::Api::PostService) }
     let(:api_response) do
       {
@@ -24,7 +24,7 @@ RSpec.describe LanguageModel::Responses::FetchService do
     it 'calls the PostService and processes the response' do
       result = fetch_service.process
       expect(result[:content]).to eq('Generated response')
-      expect(result[:sender]).to eq(chat.assistant.name)
+      expect(result[:sender]).to eq(chat.profile.name)
       expect(result[:role]).to eq(:assistant)
     end
 

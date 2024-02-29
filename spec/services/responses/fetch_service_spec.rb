@@ -14,7 +14,7 @@ RSpec.describe Responses::FetchService do
     before do
       allow(Chat).to receive(:find).with(chat_id).and_return(chat)
       allow(LanguageModel::Responses::FetchService).to receive(:new).with(chat:).and_return(language_model_service)
-      allow(language_model_service).to receive(:process).and_return({ content: generated_content, sender: 'Assistant',
+      allow(language_model_service).to receive(:process).and_return({ content: generated_content, sender: 'assistant',
                                                                       role: :assistant })
       allow(Turbo::StreamsChannel).to receive(:broadcast_append_to)
     end

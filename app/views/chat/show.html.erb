@@ -1,4 +1,4 @@
-<h1>Chatting as <%= current_user.name %></h1>
+<h1>Chatting with <%= @chat.profile.name %></h1>
 <div>
   <%= turbo_stream_from "messages" %>
 

@@ -4,11 +4,6 @@ require 'rails_helper'
 
 RSpec.describe MessagesController, type: :controller do
   describe 'POST #create' do
-    before do
-      allow(controller).to receive(:authenticate!)
-      allow(controller).to receive(:session).and_return({ current_user: profile.id })
-    end
-
     let!(:profile) { create(:profile) }
     let(:chat_id) { create(:chat).id }
     let(:valid_attributes) do
@@ -27,6 +22,12 @@ RSpec.describe MessagesController, type: :controller do
         post :create, params: { message: valid_attributes }
         expect(response.content_type).to include('text/vnd.turbo-stream.html')
         expect(response).to render_template('messages/_message')
+      end
+
+      it 'enqueues FetchApiResponseJob' do
+        expect do
+          post :create, params: { message: valid_attributes }
+        end.to have_enqueued_job(FetchApiResponseJob).with(chat_id:)
       end
     end
 

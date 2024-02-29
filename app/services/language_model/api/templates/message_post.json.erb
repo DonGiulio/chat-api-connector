@@ -74,12 +74,13 @@
   "compress_pos_emb": 1,
   "alpha_value": 1,
   "gpu_memory_0": 0,
-  "messages": <%= @chat.messages.map { |message|  { role: message.role, content: message.content } }.to_json %>,
+  "messages":
+  <%= @chat.messages.map { |message|  { role: message.role, content: message.content } }.to_json %>,
   "your_name": "<%= @chat.profile.name %>",
   "user_input": "<%= @chat.messages.last.content %>",
-  "name1": "<%= @chat.profile.name %>",
-  "name2": "<%= @chat.assistant.name %>",
-  "greeting": "<%= @chat.assistant.greeting %>",
-  "context": "<%= @chat.assistant.description %>",
+  "name1": "User",
+  "name2": "<%= @chat.profile.name %>",
+  "greeting": "<%= @chat.profile.greeting %>",
+  "context": "<%= @chat.profile.context %>",
   "character": "Example"
 }

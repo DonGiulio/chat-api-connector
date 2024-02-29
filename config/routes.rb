@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
 
   resources :messages, only: [:create]
-  resources :profiles, only: %i[index show]
+  resources :profiles, only: [:index]
 
   get 'chat/show'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -24,7 +24,7 @@ module LanguageModel
 
         {
           content: message[:content],
-          sender: chat.assistant.name,
+          sender: chat.profile.name,
           role: :assistant
         }
       end

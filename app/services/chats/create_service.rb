@@ -3,17 +3,22 @@
 module Chats
   # Chats::CreateService
   class CreateService
-    attr_reader :profile, :assistant
+    attr_reader :profile
 
-    def initialize(profile:, assistant:)
+    def initialize(profile:)
       @profile = profile
-      @assistant = assistant
     end
 
     def process
-      chat = Chat.create!(profile:, assistant:)
-      Message.create!(chat:, sender: assistant.name, content: assistant.greeting, role: :assistant)
+      chat = Chat.create!(profile:)
+      Message.create!(chat:, sender: profile.name, content:, role: :assistant)
       chat
+    end
+
+    private
+
+    def content
+      profile.greeting
     end
   end
 end
