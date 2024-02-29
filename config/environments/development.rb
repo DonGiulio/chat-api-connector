@@ -32,7 +32,12 @@ Rails.application.configure do
   else
     config.action_controller.perform_caching = false
 
-    config.cache_store = :null_store
+    redis_url = ENV.fetch('REDIS_URL', nil)
+    config.cache_store = if redis_url
+                           [:redis_cache_store, { url: redis_url }]
+                         else
+                           :null_store
+                         end
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).

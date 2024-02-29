@@ -28,7 +28,12 @@ Rails.application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
-  config.cache_store = :null_store
+  redis_url = ENV.fetch('REDIS_URL', nil)
+  config.cache_store = if redis_url
+                         [:redis_cache_store, { url: redis_url }]
+                       else
+                         :null_store
+                       end
 
   # Render exception templates for rescuable exceptions and raise for other exceptions.
   config.action_dispatch.show_exceptions = :rescuable

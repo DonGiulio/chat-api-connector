@@ -12,4 +12,6 @@
 #
 class Server < ApplicationRecord
   validates :name, :url, presence: true
+
+  default_scope { order(created_at: :asc) }
 end

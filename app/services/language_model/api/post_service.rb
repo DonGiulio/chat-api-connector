@@ -6,7 +6,7 @@ module LanguageModel
     class PostService
       attr_reader :chat
 
-      POST_BODY_TEMPLATE_FILE = 'app/services/language_model/api/templates/post.json.erb'
+      POST_BODY_TEMPLATE_FILE = 'app/services/language_model/api/templates/message_post.json.erb'
 
       class HttpError < StandardError; end
 
