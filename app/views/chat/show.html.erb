@@ -1,19 +1,18 @@
 <h1>Chatting with <%= @chat.profile.name %></h1>
-<div>
+<div class="chat-container">
   <%= turbo_stream_from dom_id(@chat) %>
 
-  <turbo-frame id="messages">
-    <%= render @chat.messages %>
-  </turbo-frame>
-
-  <div id="typing-indicator" data-controller="typing-indicator">
-    <%= render 'messages/typing_indicator' %>
-
-    <form action="/messages" method="post" data-turbo-frame="messages">
-      <input type="text" name="message[content]">
-      <input type="hidden" name="message[chat_id]" value="<%= @chat.id %>">
-      <button type="submit" data-action="typing-indicator#show">Send</button>
-    </form>
+  <div class="messages">
+    <turbo-frame id="messages" data-controller="scroll">
+      <%= render @chat.messages %>
+    </turbo-frame>
+    <div id="typing-indicator"></div>
   </div>
-  <%= link_to 'back', root_path %>
+
+  <form action="/messages" method="post" data-turbo-frame="messages" class="message-form">
+    <%= link_to 'Back', root_path, class: "back-link" %>
+    <input type="text" name="message[content]" placeholder="Type a message" class="message-input">
+    <input type="hidden" name="message[chat_id]" value="<%= @chat.id %>">
+    <button type="submit" class="send-button" data-action="typing-indicator#show">Send</button>
+  </form>
 </div>

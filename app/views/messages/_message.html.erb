@@ -1,7 +1,9 @@
-<div id="<%= dom_id(message) %>" class="message">
-  <p>
-    <%= time_ago_in_words(message.created_at) %> ago by
-    <%= message.sender %>:
+<div id="<%= dom_id(message) %>" class="<%= message_css_class(message) %>">
+  <div class="message-metadata">
+    <span class="message-sender"><%= message.sender %></span>
+    <span class="message-time"><%= time_ago_in_words(message.created_at) %> ago</span>
+  </div>
+  <div class="message-content">
     <%= message.content %>
-  </p>
+  </div>
 </div>

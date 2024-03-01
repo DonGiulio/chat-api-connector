@@ -1,0 +1,66 @@
+/* Search Form Styling */
+.search-form {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #525252;
+  font-size: 16px;
+}
+
+.form-select {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.clear-filters {
+  display: inline-block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.clear-filters:hover {
+  text-decoration: underline;
+}
+
+/* Profiles Table Styling */
+.profiles-table {
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.use-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.use-link:hover {
+  text-decoration: underline;
+}
+
+/* Pagination Styling */
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}

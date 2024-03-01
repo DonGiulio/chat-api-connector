@@ -1,0 +1,123 @@
+.message-bubble {
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    max-width: 75%;
+    word-wrap: break-word;
+}
+
+.assistant-message {
+    align-self: flex-end;
+    text-align: right;
+}
+
+.assistant-message.male {
+    background-color: #E1F3FB; /* Light green similar to WhatsApp */
+}
+
+.assistant-message.female {
+    background-color: #FFC0CB; /* Light pink for female */
+}
+
+.user-message {
+    background-color: #DCF8C6; /* Light blue for assistant */
+    align-self: flex-start;
+}
+
+#messages {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    overflow-y: auto;
+    max-height: 80vh; /* Adjust based on your layout */
+}
+
+.message-metadata.message-sender {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.message-metadata.message-time {
+    font-size: 12px;
+    color: #666;
+}
+
+.message-content {
+    margin-top: 4px;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+
+.messages {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 70px;
+}
+
+.message-form {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ddd;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.messages {
+    padding-bottom: 70px; /* Adjust based on the form's height to prevent overlap */
+}
+
+/* Ensure you have enough padding at the bottom of the messages container */
+/* so the last message isn't hidden behind the fixed form */
+
+.message-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-right: 10px;
+}
+
+.send-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.send-button:hover {
+    background-color: #0056b3;
+}
+
+.back-link {
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    text-align: center;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    padding-bottom: 70px;
+}

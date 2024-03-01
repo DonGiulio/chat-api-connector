@@ -28,8 +28,9 @@ module Responses
                                                 partial: 'messages/message',
                                                 locals: { message: response_message }
       Turbo::StreamsChannel.broadcast_update_to dom_id(chat),
-                                                target: 'indicator',
-                                                partial: 'messages/typing_indicator'
+                                                target: 'typing-indicator',
+                                                action: :update,
+                                                content: ''
     end
   end
 end

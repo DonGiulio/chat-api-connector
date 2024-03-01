@@ -20,6 +20,9 @@ class MessagesController < ApplicationController
                                               target: 'messages',
                                               partial: 'messages/message',
                                               locals: { message: }
+    Turbo::StreamsChannel.broadcast_update_to dom_id(chat),
+                                              target: 'typing-indicator',
+                                              partial: 'messages/typing_indicator'
   end
 
   def chat
