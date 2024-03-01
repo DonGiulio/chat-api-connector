@@ -29,11 +29,11 @@ def create_servers
   server_data = [
     {
       name: 'Server 1',
-      url: 'http://35.204.143.204:5000/v1/chat/completions'
+      url: ENV.fetch('CHAT_SERVER_URL', 'http://dummy.com')
     },
     {
       name: 'Server 2',
-      url: 'http://35.204.143.204:5000/v1/chat/completions'
+      url: ENV.fetch('CHAT_SERVER_URL', 'http://dummy.com')
     }
   ]
 
