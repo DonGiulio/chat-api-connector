@@ -74,9 +74,8 @@
   "compress_pos_emb": 1,
   "alpha_value": 1,
   "gpu_memory_0": 0,
-  "messages":
-  <%= @chat.messages.map { |message|  { role: message.role, content: message.content } }.to_json %>,
-  "your_name": "<%= @chat.profile.name %>",
+  "messages": <%= @chat.messages.map { |message|  { role: message.role, content: message.content } }.to_json %>,
+  "your_name": "User",
   "user_input": "<%= @chat.messages.last.content %>",
   "name1": "User",
   "name2": "<%= @chat.profile.name %>",
