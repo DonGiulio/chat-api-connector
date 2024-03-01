@@ -10,10 +10,8 @@ RSpec.describe LanguageModel::Api::PostService do
 
     before do
       allow(LanguageModel::Api::LoadBalancer::RoundRobinService)
-        .to receive(:new)
-        .and_return(instance_double(
-                      'LanguageModel::Api::LoadBalancer::RoundRobinService', process: server
-                    ))
+        .to receive_message_chain(:new, process: server)
+
       allow(HTTParty).to receive(:post).with(server.url, anything).and_return(response)
     end
 
@@ -91,6 +89,16 @@ RSpec.describe LanguageModel::Api::PostService do
 
       it 'raises an error' do
         expect { process }.to raise_error(LanguageModel::Api::PostService::HttpError, 'http request failed')
+      end
+    end
+
+    context 'when there is no server available' do
+      before do
+        allow(LanguageModel::Api::LoadBalancer::RoundRobinService).to receive_message_chain(:new, process: nil)
+      end
+
+      it 'raises an error' do
+        expect { process }.to raise_error(LanguageModel::Api::PostService::NoServerError, 'no server available')
       end
     end
   end

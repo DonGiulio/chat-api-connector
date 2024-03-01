@@ -9,12 +9,15 @@ module LanguageModel
       POST_BODY_TEMPLATE_FILE = 'app/services/language_model/api/templates/message_post.json.erb'
 
       class HttpError < StandardError; end
+      class NoServerError < StandardError; end
 
       def initialize(chat:)
         @chat = chat
       end
 
       def process
+        assert_server
+
         response = HTTParty.post(server.url,
                                  body: request_body,
                                  headers: { 'Content-Type' => 'application/json' })
@@ -25,8 +28,12 @@ module LanguageModel
 
       private
 
+      def assert_server
+        raise NoServerError, 'no server available' if server.nil?
+      end
+
       def server
-        LanguageModel::Api::LoadBalancer::RoundRobinService.new.process
+        @server ||= LanguageModel::Api::LoadBalancer::RoundRobinService.new.process
       end
 
       def request_body
