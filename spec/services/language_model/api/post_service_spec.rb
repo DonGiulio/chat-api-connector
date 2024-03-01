@@ -84,11 +84,18 @@ RSpec.describe LanguageModel::Api::PostService do
 
     context 'when the response is not 200' do
       before do
-        allow(HTTParty).to receive(:post).and_return(instance_double('HTTParty::Response', ok?: false))
+        error_response_double = instance_double('HTTParty::Response',
+                                                ok?: false,
+                                                code: 500,
+                                                body: 'Internal server error')
+        allow(HTTParty).to receive(:post).and_return(error_response_double)
       end
 
       it 'raises an error' do
-        expect { process }.to raise_error(LanguageModel::Api::PostService::HttpError, 'http request failed')
+        expect do
+          process
+        end.to raise_error(LanguageModel::Api::PostService::HttpError,
+                           'http request failed with: 500, Internal server error')
       end
     end
 

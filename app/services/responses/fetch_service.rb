@@ -21,7 +21,7 @@ module Responses
     end
 
     def broadcast_response(response_message)
-      Messages::NewBroadcast.broadcast(message: response_message)
+      ::Messages::NewBroadcast.broadcast(message: response_message)
     end
   end
 end

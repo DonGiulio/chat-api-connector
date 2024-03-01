@@ -21,7 +21,7 @@ module LanguageModel
         response = HTTParty.post(server.url,
                                  body: request_body,
                                  headers: { 'Content-Type' => 'application/json' })
-        raise HttpError, 'http request failed' unless response.ok?
+        raise HttpError, "http request failed with: #{response.code}, #{response.body}" unless response.ok?
 
         JSON.parse(response.body).deep_symbolize_keys
       end

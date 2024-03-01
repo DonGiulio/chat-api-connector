@@ -5,8 +5,8 @@ class MessagesController < ApplicationController
     return head :bad_request if message_params[:content].blank?
 
     message = Message.create!(message_params.merge(sender: 'You', role: :user))
-    FetchApiResponseJob.perform_later(chat_id: message_params[:chat_id])
     feedback_message(message)
+    FetchApiResponseJob.perform_later(chat_id: message_params[:chat_id])
 
     head :ok
   end
