@@ -4,10 +4,6 @@ import {Controller} from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["form"]
 
-  connect() {
-    console.log("Filters controller connected");
-  }
-
   submit() {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
@@ -16,7 +12,6 @@ export default class extends Controller {
   }
 
   clear(event) {
-    console.log("Clearing filters"); // Debugging statement
     event.preventDefault();
     window.location.href = this.element.getAttribute('action');
   }

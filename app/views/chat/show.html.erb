@@ -9,10 +9,14 @@
     <div id="typing-indicator"></div>
   </div>
 
-  <form action="/messages" method="post" data-turbo-frame="messages" class="message-form">
+  <form action="/messages"
+        method="post"
+        class="message-form"
+        data-controller="clear-form"
+        data-action="turbo:submit-end->clear-form#clear">
     <%= link_to 'Back', root_path, class: "back-link" %>
-    <input type="text" name="message[content]" placeholder="Type a message" class="message-input">
+    <input type="text" name="message[content]" placeholder="Type a message" class="message-input" data-clear-form-target="input">
     <input type="hidden" name="message[chat_id]" value="<%= @chat.id %>">
-    <button type="submit" class="send-button" data-action="typing-indicator#show">Send</button>
+    <button type="submit" class="send-button">Send</button>
   </form>
 </div>
